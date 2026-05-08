@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Traits Interface</title>
+  <style>
+    :root {
+      --text-main: #f2f6ff;
+      --text-soft: rgba(242, 246, 255, 0.76);
+      --text-muted: rgba(242, 246, 255, 0.56);
+      --line-soft: rgba(242, 246, 255, 0.38);
+      --line-active: rgba(255, 255, 255, 0.96);
+      --panel-bg: rgba(16, 23, 40, 0.42);
+      --panel-border: rgba(236, 244, 255, 0.14);
+      --card-blue: #465574;
+      --card-blue-dark: #394762;
+      --card-purple-a: #301a63;
+      --card-purple-b: #5d1c8d;
+      --card-gold-a: #8a5f34;
+      --card-gold-b: #5c442e;
+      --card-navy-a: #14294b;
+      --card-navy-b: #1b365d;
+      --accent-yellow: #dfd682;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 50% 78%, rgba(143, 177, 255, 0.34), transparent 15%),
+        radial-gradient(circle at 80% 20%, rgba(96, 116, 174, 0.23), transparent 28%),
+        radial-gradient(circle at 18% 18%, rgba(126, 148, 201, 0.18), transparent 30%),
+        linear-gradient(135deg, #1e273d 0%, #344260 46%, #252d44 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      background:
+        linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.035) 48%, transparent 70%),
+        radial-gradient(circle at 58% 82%, rgba(187, 211, 255, 0.16), transparent 16%);
+      filter: blur(1px);
+    }
+
+    body::after {
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black, transparent 72%);
+    }
+
+    .page {
+      position: relative;
+      width: min(1080px, 92vw);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 22px 0 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: clamp(24px, 3.2vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      text-shadow: 0 14px 42px rgba(170, 204, 255, 0.23);
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      max-width: 640px;
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .toolbar {
+      width: min(330px, 100%);
+      padding: 8px;
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      background: rgba(14, 22, 39, 0.26);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .search-icon {
+      opacity: 0.72;
+      font-size: 15px;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--text-main);
+      background: transparent;
+      font-size: 13px;
+    }
+
+    .search-input::placeholder {
+      color: rgba(242, 246, 255, 0.48);
+    }
+
+    .counter {
+      margin-top: 7px;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .traits-panel {
+      width: 100%;
+      min-height: 330px;
+      padding: 22px 24px;
+      border: 1px solid rgba(236, 244, 255, 0.09);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 80px rgba(0, 0, 0, 0.12);
+    }
+
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px 26px;
+      align-items: start;
+    }
+
+    .trait-btn {
+      appearance: none;
+      min-height: 30px;
+      border: 0;
+      background: transparent;
+      color: rgba(239, 245, 255, 0.82);
+      font-size: clamp(12px, 1vw, 15px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: 0.005em;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+      text-decoration-color: var(--line-soft);
+      text-shadow: 0 1px 8px rgba(220, 235, 255, 0.18);
+      border-radius: 12px;
+      padding: 3px 5px;
+      transition: color 160ms ease, transform 160ms ease, text-decoration-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .trait-btn:hover,
+    .trait-btn:focus-visible {
+      color: #ffffff;
+      transform: translateY(-2px);
+      text-decoration-color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.045);
+      outline: none;
+    }
+
+    .trait-btn.active {
+      color: #ffffff;
+      text-decoration-color: var(--line-active);
+      text-shadow: 0 0 14px rgba(210, 232, 255, 0.78);
+      background: rgba(255, 255, 255, 0.075);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 12px 34px rgba(66, 95, 150, 0.22);
+    }
+
+    .trait-btn.hidden {
+      display: none;
+    }
+
+    .details-card {
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--panel-border);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(148, 184, 255, 0.14), transparent 34%),
+        var(--panel-bg);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18);
+    }
+
+    .details-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .details-kicker {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .details-title {
+      font-size: clamp(17px, 1.6vw, 23px);
+      line-height: 1.08;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .details-text {
+      font-size: 13px;
+      line-height: 1.55;
+      color: rgba(239, 245, 255, 0.8);
+      margin-bottom: 12px;
+    }
+
+    .empty-state {
+      color: rgba(239, 245, 255, 0.64);
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .mini-btn {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: rgba(255, 255, 255, 0.84);
+      background: rgba(255, 255, 255, 0.07);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .mini-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 6px 0 10px;
+    }
+
+    .gallery-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .gallery-count {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .card-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    .translated-card {
+      width: 100%;
+      max-width: 810px;
+      min-height: 462px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--card-blue);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+    }
+
+    .translated-card.is-purple .card-head {
+      background: linear-gradient(120deg, var(--card-purple-a), var(--card-purple-b));
+    }
+
+    .translated-card.is-gold .card-head {
+      background: linear-gradient(120deg, var(--card-gold-a), var(--card-gold-b));
+    }
+
+    .translated-card.is-navy .card-head {
+      background: linear-gradient(120deg, var(--card-navy-a), var(--card-navy-b));
+    }
+
+    .card-head {
+      position: relative;
+      min-height: 188px;
+      padding: 14px 120px 12px 190px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(120deg, var(--card-purple-a), var(--card-purple-b));
+    }
+
+    .portrait-box {
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      width: 132px;
+      height: 132px;
+      border-radius: 2px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.24);
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .portrait-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .portrait-fallback {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 45% 30%, rgba(255,255,255,0.82), rgba(180,190,210,0.5) 38%, rgba(60,70,90,0.4) 70%);
+      filter: drop-shadow(0 3px 8px rgba(0,0,0,0.3));
+    }
+
+    .portrait-fallback.creature-jelly {
+      border-radius: 48% 48% 42% 42%;
+      background: radial-gradient(circle at 45% 25%, #ffd9b0, #d98759 50%, rgba(255,255,255,0.25) 52%, transparent 56%);
+      position: relative;
+    }
+
+    .portrait-fallback.creature-jelly::after {
+      content: "";
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: -34px;
+      height: 46px;
+      background: repeating-linear-gradient(90deg, rgba(255,236,214,0.8) 0 2px, transparent 2px 8px);
+      filter: blur(0.3px);
+    }
+
+    .portrait-fallback.creature-fish {
+      width: 126px;
+      height: 58px;
+      border-radius: 65% 20% 20% 65%;
+      background: linear-gradient(145deg, #ffffff 0%, #7792b9 36%, #f2b3b5 44%, #fff4ef 55%, #222f42 76%);
+      transform: rotate(-14deg);
+    }
+
+    .portrait-fallback.creature-ray {
+      width: 108px;
+      height: 80px;
+      border-radius: 80% 12% 80% 12%;
+      background: linear-gradient(145deg, #354258, #c0a19d 44%, #f5cfd6 56%, #536074);
+      transform: rotate(-20deg) skewX(-10deg);
+    }
+
+    .get-btn {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      min-width: 136px;
+      padding: 10px 18px;
+      color: #ffffff;
+      font-size: 31px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      border: 2px solid rgba(172, 196, 222, 0.28);
+      background: rgba(56, 72, 100, 0.68);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .card-name {
+      color: #ffffff;
+      font-size: 46px;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      white-space: normal;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.16);
+    }
+
+    .card-name.long {
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .card-type {
+      position: absolute;
+      left: 190px;
+      bottom: 18px;
+      color: rgba(232, 232, 242, 0.58);
+      font-size: 29px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .card-body {
+      color: #ffffff;
+      background: linear-gradient(180deg, var(--card-blue), var(--card-blue-dark));
+    }
+
+    .section-row {
+      position: relative;
+      padding: 18px 18px 16px 66px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.045);
+    }
+
+    .section-row::before {
+      content: "◇";
+      position: absolute;
+      left: 36px;
+      top: 17px;
+      color: rgba(206, 216, 236, 0.5);
+      font-size: 23px;
+      line-height: 1;
+    }
+
+    .section-label {
+      color: rgba(218, 225, 242, 0.54);
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .question-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 3px solid var(--accent-yellow);
+      color: var(--accent-yellow);
+      font-size: 30px;
+      line-height: 1;
+      transform: rotate(45deg);
+      margin-left: 2px;
+    }
+
+    .question-mark span {
+      transform: rotate(-45deg);
+      font-weight: 800;
+    }
+
+    .flow-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .flow-text {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .buy-btn {
+      min-width: 135px;
+      padding: 9px 16px;
+      margin-right: 2px;
+      border: 2px solid rgba(172, 196, 222, 0.22);
+      color: #ffffff;
+      background: rgba(74, 91, 119, 0.52);
+      font-size: 32px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .property-text {
+      color: #ffffff;
+      font-size: 31px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+    }
+
+    .image-card {
+      padding: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+    }
+
+    .image-card-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .image-card-caption {
+      padding: 7px 2px 1px;
+      color: rgba(242, 246, 255, 0.78);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .no-media {
+      padding: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      border-radius: 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .hint {
+      margin-top: 14px;
+      padding: 11px 13px;
+      border-left: 3px solid rgba(230, 241, 255, 0.36);
+      color: rgba(239, 245, 255, 0.66);
+      font-size: 14px;
+      line-height: 1.6;
+      background: rgba(0, 0, 0, 0.10);
+      border-radius: 0 14px 14px 0;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.22);
+    }
+
+    .hint strong {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .no-results {
+      display: none;
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-soft);
+      padding: 80px 20px;
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .no-results.show {
+      display: block;
+    }
+
+    @media (max-width: 1040px) {
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .toolbar {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .traits-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px 26px;
+      }
+
+      .card-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(94vw, 460px);
+        padding-top: 24px;
+      }
+
+      .traits-panel {
+        padding: 20px 14px;
+        border-radius: 22px;
+      }
+
+      .traits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 14px;
+      }
+
+      .trait-btn {
+        font-size: 14px;
+        min-height: 34px;
+      }
+
+      .translated-card {
+        min-height: 0;
+      }
+
+      .card-head {
+        min-height: 132px;
+        padding: 12px 74px 10px 112px;
+      }
+
+      .portrait-box {
+        left: 14px;
+        top: 18px;
+        width: 78px;
+        height: 78px;
+      }
+
+      .get-btn {
+        right: 8px;
+        top: 8px;
+        min-width: 64px;
+        padding: 7px 8px;
+        font-size: 17px;
+      }
+
+      .card-name {
+        font-size: 24px;
+      }
+
+      .card-name.long {
+        font-size: 19px;
+      }
+
+      .card-type {
+        left: 112px;
+        bottom: 14px;
+        font-size: 17px;
+      }
+
+      .section-row {
+        padding: 12px 10px 12px 36px;
+      }
+
+      .section-row::before {
+        left: 14px;
+        top: 13px;
+        font-size: 16px;
+      }
+
+      .section-label {
+        font-size: 19px;
+        margin-bottom: 10px;
+      }
+
+      .question-mark {
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+        border-width: 2px;
+      }
+
+      .flow-text,
+      .buy-btn,
+      .property-text {
+        font-size: 18px;
+      }
+
+      .buy-btn {
+        min-width: 68px;
+        padding: 6px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Interactive Reference</p>
+        <h1>Battle Traits</h1>
+        <p class="subtitle">
+          Click a trait to show its details. The <strong>Stormy Seas</strong> trait now includes its translated effect description and the 18 recreated temporary cards.
+        </p>
+      </div>
+
+      <aside class="toolbar" aria-label="Trait controls">
+        <label class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="searchInput" type="search" placeholder="Search traits..." autocomplete="off" />
+        </label>
+        <p class="counter" id="counter">40 traits available</p>
+      </aside>
+    </header>
+
+    <section class="traits-panel">
+      <div class="traits-grid" id="traitsGrid" aria-label="Battle traits list">
+        <p class="no-results" id="noResults">No matching traits found.</p>
+      </div>
+    </section>
+
+    <aside class="details-card" id="detailsCard" aria-live="polite">
+      <div class="details-top">
+        <div>
+          <p class="details-kicker">Trait Details</p>
+          <h2 class="details-title" id="detailsTitle">Choose a trait</h2>
+        </div>
+
+        <div class="detail-actions">
+          <button class="mini-btn" type="button" id="prevBtn">Previous</button>
+          <button class="mini-btn" type="button" id="nextBtn">Next</button>
+        </div>
+      </div>
+
+      <p class="details-text empty-state" id="detailsText">
+        Click any trait above to show its description here. You can replace the placeholder descriptions later with exact skill effects, activation rules, cooldowns, or notes.
+      </p>
+
+      <div id="gallerySection">
+        <div class="gallery-header">
+          <p class="gallery-title">Related Cards</p>
+          <p class="gallery-count" id="galleryCount">0 items</p>
+        </div>
+
+        <div id="galleryContent" class="no-media">
+          No cards added for this trait yet.
+        </div>
+      </div>
+    </aside>
+
+    <p class="hint">
+      <strong>Tip:</strong> Traits activate in order of strength. When a trait is disabled, it is only disabled the next time it would activate if it has already been triggered.
+    </p>
+  </main>
+
+  <script>
+    const traitNames = [
+      "Star Shift",
+      "Unshakable",
+      "Savage Intimidation",
+      "Grounded Prison",
+      "Synchronized Self-Seal",
+      "Horned Armor",
+      "Indestructible",
+      "Imprisoned",
+      "Light After Darkness",
+      "Blade Corrosion",
+      "Silent Iron-Cutting",
+      "Take in Passing",
+      "Mend the Fold",
+      "Tiger-Wolf Stance",
+      "Mantis Armor",
+      "Stormy Seas",
+      "Solid as Rock",
+      "Unstoppable",
+      "Steady as Mount Tai",
+      "Raw and Ruthless",
+      "Feast on Wind and Dew",
+      "Iron Wall",
+      "Seize the Opening",
+      "Spider Silk Net",
+      "Flashing Evasion",
+      "Tendon and Bone Break",
+      "Lightning Flash",
+      "Bewitching Scale Powder",
+      "Sober Among the Drunk",
+      "Mountain-Lifting Strength",
+      "Nowhere to Hide",
+      "Protective Witchcraft",
+      "Preemptive Strike",
+      "Counter Initiative",
+      "Flawless Defense",
+      "Vital Ambush",
+      "Immovable as a Mountain",
+      "Crushing Force",
+      "Free Advance and Retreat",
+      "Fight to the Death"
+    ];
+
+    const traits = traitNames.map(name => ({
+      name,
+      details: `Placeholder details for ${name}. Add the exact effect, trigger condition, and limitations here.`,
+      cards: []
+    }));
+
+    const stormySeasIndex = traits.findIndex(trait => trait.name === "Stormy Seas");
+
+    traits[stormySeasIndex] = {
+      name: "Stormy Seas",
+      details: "Variant Temporary Cards Containing [Stormy Seas]. Max-Level Effect: Activates at the start of battle. During this round, your Battle Beast damage bonus increases by 22% (Power 714).",
+      cards: [
+        {
+          src: "images/stormy-seas/cards/01-gan-shen-temporary.png",
+          label: "Gan Shen [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/02-gan-ding-temporary.png",
+          label: "Gan Ding [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/03-gan-fu-temporary.png",
+          label: "Gan Fu [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/04-gan-tong-temporary.png",
+          label: "Gan Tong [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/05-gan-ling-temporary.png",
+          label: "Gan Ling [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/06-gan-xiao-temporary.png",
+          label: "Gan Xiao [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/07-gan-pi-temporary.png",
+          label: "Gan Pi [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/08-1000-years-chongyan-luozhu-jellyfish-temporary.png",
+          label: "1,000 Years · Chongyan · Luozhu Jellyfish [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/09-chongyan-burning-wing-ghostfish-temporary.png",
+          label: "Chongyan · Burning-Wing Ghostfish [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/10-1000-years-chongyan-ray-temporary.png",
+          label: "1,000 Years · Chongyan · Ray [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/11-100-years-chongyan-burning-wing-ghostfish-temporary.png",
+          label: "100 Years · Chongyan · Burning-Wing Ghostfish [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/12-1000-years-chongyan-burning-wing-ghostfish-temporary.png",
+          label: "1,000 Years · Chongyan · Burning-Wing Ghostfish [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/13-1000-years-golden-crow-temporary.png",
+          label: "1,000 Years · Golden Crow [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/14-30000-years-chongyan-burning-wing-ghostfish-temporary.png",
+          label: "30,000 Years · Chongyan · Burning-Wing Ghostfish [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/15-30000-years-chongyan-kun-kun-temporary.png",
+          label: "30,000 Years · Chongyan · Kun Kun [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/16-30000-years-golden-crow-temporary.png",
+          label: "30,000 Years · Golden Crow [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/17-50000-years-chongyan-luozhu-jellyfish-temporary.png",
+          label: "50,000 Years · Chongyan · Luozhu Jellyfish [Temporary]"
+        },
+        {
+          src: "images/stormy-seas/cards/18-50000-years-golden-crow-temporary.png",
+          label: "50,000 Years · Golden Crow [Temporary]"
+        }
+      ]
+    };
+
+    const traitsGrid = document.getElementById("traitsGrid");
+    const detailsTitle = document.getElementById("detailsTitle");
+    const detailsText = document.getElementById("detailsText");
+    const galleryContent = document.getElementById("galleryContent");
+    const galleryCount = document.getElementById("galleryCount");
+    const detailsCard = document.getElementById("detailsCard");
+
+    const searchInput = document.getElementById("searchInput");
+    const counter = document.getElementById("counter");
+    const noResults = document.getElementById("noResults");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let selectedIndex = null;
+    const buttons = [];
+
+    function getThemeClass(theme) {
+      if (theme === "gold") return "is-gold";
+      if (theme === "navy") return "is-navy";
+      return "is-purple";
+    }
+
+    function isLongName(name) {
+      return name.length > 31;
+    }
+
+    function portraitMarkup(card) {
+      if (card.portrait) {
+        return `
+          <img src="${card.portrait}" alt="${card.name}" onerror="this.remove(); this.parentElement.insertAdjacentHTML('beforeend', '<div class=&quot;portrait-fallback ${card.portraitClass || ''}&quot;></div>');">
+        `;
+      }
+
+      return `<div class="portrait-fallback ${card.portraitClass || ''}"></div>`;
+    }
+
+    function renderCards(cards) {
+      if (!cards || cards.length === 0) {
+        galleryCount.textContent = "0 items";
+        galleryContent.className = "no-media";
+        galleryContent.innerHTML = "No cards added for this trait yet.";
+        return;
+      }
+
+      galleryCount.textContent = `${cards.length} items`;
+      galleryContent.className = "card-gallery";
+      galleryContent.innerHTML = "";
+
+      cards.forEach(card => {
+        const figure = document.createElement("figure");
+        figure.className = "image-card";
+
+        figure.innerHTML = `
+          <img class="image-card-img" src="${card.src}" alt="${card.label}" loading="lazy">
+          <figcaption class="image-card-caption">${card.label}</figcaption>
+        `;
+
+        galleryContent.appendChild(figure);
+      });
+    }
+
+    function selectTrait(index, shouldScrollOnMobile = true) {
+      selectedIndex = index;
+
+      buttons.forEach(button => button.classList.remove("active"));
+      buttons[index].classList.add("active");
+
+      detailsTitle.textContent = traits[index].name;
+      detailsText.textContent = traits[index].details;
+      detailsText.classList.remove("empty-state");
+
+      renderCards(traits[index].cards);
+
+      if (window.innerWidth <= 700 && shouldScrollOnMobile) {
+        detailsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function renderTraits() {
+      traits.forEach((trait, index) => {
+        const button = document.createElement("button");
+        button.className = "trait-btn";
+        button.type = "button";
+        button.textContent = trait.name;
+        button.setAttribute("aria-label", `Show details for ${trait.name}`);
+        button.addEventListener("click", () => selectTrait(index));
+
+        buttons.push(button);
+        traitsGrid.insertBefore(button, noResults);
+      });
+    }
+
+    function filterTraits() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      buttons.forEach((button, index) => {
+        const isMatch = traits[index].name.toLowerCase().includes(keyword);
+        button.classList.toggle("hidden", !isMatch);
+        if (isMatch) visibleCount += 1;
+      });
+
+      noResults.classList.toggle("show", visibleCount === 0);
+      counter.textContent = `${visibleCount} of ${traits.length} traits shown`;
+
+      if (selectedIndex !== null && buttons[selectedIndex].classList.contains("hidden")) {
+        const firstVisible = buttons.findIndex(button => !button.classList.contains("hidden"));
+        if (firstVisible !== -1) selectTrait(firstVisible, false);
+      }
+    }
+
+    function moveSelection(direction) {
+      const visibleIndexes = buttons
+        .map((button, index) => button.classList.contains("hidden") ? null : index)
+        .filter(index => index !== null);
+
+      if (visibleIndexes.length === 0) return;
+
+      if (selectedIndex === null || !visibleIndexes.includes(selectedIndex)) {
+        selectTrait(visibleIndexes[0], false);
+        return;
+      }
+
+      const currentVisiblePosition = visibleIndexes.indexOf(selectedIndex);
+      const nextVisiblePosition =
+        (currentVisiblePosition + direction + visibleIndexes.length) % visibleIndexes.length;
+
+      selectTrait(visibleIndexes[nextVisiblePosition], false);
+    }
+
+    renderTraits();
+    filterTraits();
+
+    searchInput.addEventListener("input", filterTraits);
+    prevBtn.addEventListener("click", () => moveSelection(-1));
+    nextBtn.addEventListener("click", () => moveSelection(1));
+
+    selectTrait(stormySeasIndex, false);
+  </script>
+</body>
+</html>
