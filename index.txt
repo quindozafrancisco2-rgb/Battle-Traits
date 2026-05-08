@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Traits Reference</title>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Interactive Reference</p>
+        <h1>Battle Traits</h1>
+        <p class="subtitle">
+          Each trait shows a short description. Click a trait to open its separate page with full information and cards.
+        </p>
+      </div>
+
+      <aside class="toolbar" aria-label="Trait controls">
+        <label class="search-wrap">
+          <span>⌕</span>
+          <input class="search-input" id="searchInput" type="search" placeholder="Search traits..." autocomplete="off" />
+        </label>
+        <p class="counter" id="counter">40 traits available</p>
+      </aside>
+    </header>
+
+    <section class="traits-panel">
+      <div class="traits-grid" id="traitsGrid">
+        <a class="trait-card" href="./traits/star-shift/index.html">
+          <span class="trait-name">Star Shift</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/unshakable/index.html">
+          <span class="trait-name">Unshakable</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/savage-intimidation/index.html">
+          <span class="trait-name">Savage Intimidation</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/grounded-prison/index.html">
+          <span class="trait-name">Grounded Prison</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/synchronized-self-seal/index.html">
+          <span class="trait-name">Synchronized Self-Seal</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/horned-armor/index.html">
+          <span class="trait-name">Horned Armor</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/indestructible/index.html">
+          <span class="trait-name">Indestructible</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/imprisoned/index.html">
+          <span class="trait-name">Imprisoned</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/light-after-darkness/index.html">
+          <span class="trait-name">Light After Darkness</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/blade-corrosion/index.html">
+          <span class="trait-name">Blade Corrosion</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/silent-iron-cutting/index.html">
+          <span class="trait-name">Silent Iron-Cutting</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/take-in-passing/index.html">
+          <span class="trait-name">Take in Passing</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/mend-the-fold/index.html">
+          <span class="trait-name">Mend the Fold</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/tiger-wolf-stance/index.html">
+          <span class="trait-name">Tiger-Wolf Stance</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/mantis-armor/index.html">
+          <span class="trait-name">Mantis Armor</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/stormy-seas/index.html">
+          <span class="trait-name">Stormy Seas</span>
+          <p class="trait-description">Variant temporary cards containing Stormy Seas. Max-level effect: During this round, your Battle Beast damage bonus increases by 22% for this round.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/solid-as-rock/index.html">
+          <span class="trait-name">Solid as Rock</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/unstoppable/index.html">
+          <span class="trait-name">Unstoppable</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/steady-as-mount-tai/index.html">
+          <span class="trait-name">Steady as Mount Tai</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/raw-and-ruthless/index.html">
+          <span class="trait-name">Raw and Ruthless</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/feast-on-wind-and-dew/index.html">
+          <span class="trait-name">Feast on Wind and Dew</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/iron-wall/index.html">
+          <span class="trait-name">Iron Wall</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/seize-the-opening/index.html">
+          <span class="trait-name">Seize the Opening</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/spider-silk-net/index.html">
+          <span class="trait-name">Spider Silk Net</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/flashing-evasion/index.html">
+          <span class="trait-name">Flashing Evasion</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/tendon-and-bone-break/index.html">
+          <span class="trait-name">Tendon and Bone Break</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/lightning-flash/index.html">
+          <span class="trait-name">Lightning Flash</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/bewitching-scale-powder/index.html">
+          <span class="trait-name">Bewitching Scale Powder</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/sober-among-the-drunk/index.html">
+          <span class="trait-name">Sober Among the Drunk</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/mountain-lifting-strength/index.html">
+          <span class="trait-name">Mountain-Lifting Strength</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/nowhere-to-hide/index.html">
+          <span class="trait-name">Nowhere to Hide</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/protective-witchcraft/index.html">
+          <span class="trait-name">Protective Witchcraft</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/preemptive-strike/index.html">
+          <span class="trait-name">Preemptive Strike</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/counter-initiative/index.html">
+          <span class="trait-name">Counter Initiative</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/flawless-defense/index.html">
+          <span class="trait-name">Flawless Defense</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/vital-ambush/index.html">
+          <span class="trait-name">Vital Ambush</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/immovable-as-a-mountain/index.html">
+          <span class="trait-name">Immovable as a Mountain</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/crushing-force/index.html">
+          <span class="trait-name">Crushing Force</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/free-advance-and-retreat/index.html">
+          <span class="trait-name">Free Advance and Retreat</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <a class="trait-card" href="./traits/fight-to-the-death/index.html">
+          <span class="trait-name">Fight to the Death</span>
+          <p class="trait-description">Placeholder description. Add the trait summary here.</p>
+          <span class="trait-action">→</span>
+        </a>
+        <p class="no-results" id="noResults">No matching traits found.</p>
+      </div>
+    </section>
+
+    <p class="hint">
+      <strong>Tip:</strong> Traits activate in order of strength. When a trait is disabled, it is only disabled the next time it would activate if it has already been triggered.
+    </p>
+  </main>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const counter = document.getElementById("counter");
+    const noResults = document.getElementById("noResults");
+    const traitCards = [...document.querySelectorAll(".trait-card")];
+
+    function filterTraits() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      traitCards.forEach(card => {
+        const isMatch = card.textContent.toLowerCase().includes(keyword);
+        card.style.display = isMatch ? "block" : "none";
+        if (isMatch) visibleCount += 1;
+      });
+
+      noResults.classList.toggle("show", visibleCount === 0);
+      counter.textContent = `${visibleCount} of ${traitCards.length} traits shown`;
+    }
+
+    searchInput.addEventListener("input", filterTraits);
+    filterTraits();
+  </script>
+</body>
+</html>
